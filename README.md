@@ -22,6 +22,54 @@ Example python-flask API using swagger as the driver
     dhughes@Daryls-MacBook-Pro:~/Downloads/python-flask-server$ mv * ~/Developer/swagger-microservice/
     ```
 3. Add example functionality into generated code (in services folder)
+  - services folder should contain files following the same convention as controllers: "<NAME> _ service.py"
+  ```
+  dhughes@Daryls-MacBook-Pro:~/Developer/swagger-microservice$ mkdir swagger_server/services
+  dhughes@Daryls-MacBook-Pro:~/Developer/swagger-microservice$ touch swagger_server/services/__init__.py
+  dhughes@Daryls-MacBook-Pro:~/Developer/swagger-microservice$ touch swagger_server/services/pet_service.py
+  dhughes@Daryls-MacBook-Pro:~/Developer/swagger-microservice$ touch swagger_server/services/store_service.py
+  dhughes@Daryls-MacBook-Pro:~/Developer/swagger-microservice$ touch swagger_server/services/user_service.py
+  ```
+  - add example service function
+  ```
+  diff --git a/swagger_server/controllers/pet_controller.py b/swagger_server/controllers/pet_controller.py
+  index 3a77099..c5ac21e 100755
+  --- a/swagger_server/controllers/pet_controller.py
+  +++ b/swagger_server/controllers/pet_controller.py
+  @@ -5,6 +5,8 @@ from swagger_server.models.api_response import ApiResponse  # noqa: E501
+   from swagger_server.models.pet import Pet  # noqa: E501
+   from swagger_server import util
+
+  +from swagger_server.services.pet_service import *
+  +
+
+   def add_pet(body):  # noqa: E501
+       """Add a new pet to the store
+  @@ -28,7 +30,7 @@ def delete_pet(petId, api_key=None):  # noqa: E501
+
+       :param petId: Pet id to delete
+       :type petId: int
+  -    :param api_key:
+  +    :param api_key:
+       :type api_key: str
+
+       :rtype: None
+  @@ -46,7 +48,7 @@ def find_pets_by_status(status):  # noqa: E501
+
+       :rtype: List[Pet]
+       """
+  -    return 'do some magic!'
+  +    return service_find_pets_by_status(status)
+
+
+   def find_pets_by_tags(tags):  # noqa: E501
+  ```
+  - add example unit test to pet_service
+  ```
+  dhughes@Daryls-MacBook-Pro:~/Developer/swagger-microservice$ touch swagger_server/test/test_pet_service.py
+
+  ```
+
 4. Show API documentation
 5. Show simple mock server
   ```
@@ -50,6 +98,10 @@ Example python-flask API using swagger as the driver
 8. Show process of updating the API
 
 # TESTING
+
+- UNIT: controller-ping-checks(contract testing) and services(business logic functional testing)
+- API:
+
 - Pytest example:
 ```
 (venv) dhughes@Daryls-MacBook-Pro:~/Developer/swagger-microservice$ pytest

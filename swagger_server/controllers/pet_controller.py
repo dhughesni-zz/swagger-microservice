@@ -5,6 +5,8 @@ from swagger_server.models.api_response import ApiResponse  # noqa: E501
 from swagger_server.models.pet import Pet  # noqa: E501
 from swagger_server import util
 
+from swagger_server.services.pet_service import *
+
 
 def add_pet(body):  # noqa: E501
     """Add a new pet to the store
@@ -28,7 +30,7 @@ def delete_pet(petId, api_key=None):  # noqa: E501
 
     :param petId: Pet id to delete
     :type petId: int
-    :param api_key: 
+    :param api_key:
     :type api_key: str
 
     :rtype: None
@@ -46,7 +48,7 @@ def find_pets_by_status(status):  # noqa: E501
 
     :rtype: List[Pet]
     """
-    return 'do some magic!'
+    return service_find_pets_by_status(status)
 
 
 def find_pets_by_tags(tags):  # noqa: E501
