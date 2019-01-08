@@ -16,9 +16,10 @@ class TestFindPetsByStatusService():
         assert service_find_pets_by_status('') == "Status Return:"
         assert service_find_pets_by_status(None) != "Status Return:"
 
-    # def test_undefined_find_pets_by_status(self):
-    #      # undefined
-    #     assert service_find_pets_by_status() == "Status Return:valid"
+    def test_undefined_find_pets_by_status(self):
+         # undefined
+         with pytest.raises(Exception):
+             service_find_pets_by_status()
 
     # def test_invalid_find_pets_by_status(self):
     #      # invalid
