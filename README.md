@@ -32,42 +32,26 @@ Example python-flask API using swagger as the driver
   ```
   - add example service function
   ```
-  diff --git a/swagger_server/controllers/pet_controller.py b/swagger_server/controllers/pet_controller.py
-  index 3a77099..c5ac21e 100755
-  --- a/swagger_server/controllers/pet_controller.py
-  +++ b/swagger_server/controllers/pet_controller.py
-  @@ -5,6 +5,8 @@ from swagger_server.models.api_response import ApiResponse  # noqa: E501
-   from swagger_server.models.pet import Pet  # noqa: E501
-   from swagger_server import util
-
+  /swagger_server/controllers/pet_controller.py
   +from swagger_server.services.pet_service import *
-  +
 
-   def add_pet(body):  # noqa: E501
-       """Add a new pet to the store
-  @@ -28,7 +30,7 @@ def delete_pet(petId, api_key=None):  # noqa: E501
-
-       :param petId: Pet id to delete
-       :type petId: int
-  -    :param api_key:
-  +    :param api_key:
-       :type api_key: str
-
-       :rtype: None
-  @@ -46,7 +48,7 @@ def find_pets_by_status(status):  # noqa: E501
-
-       :rtype: List[Pet]
-       """
-  -    return 'do some magic!'
+  @@ -46,7 +48,7 @@ def find_pets_by_status(status):
   +    return service_find_pets_by_status(status)
-
-
-   def find_pets_by_tags(tags):  # noqa: E501
   ```
   - add example unit test to pet_service
   ```
   dhughes@Daryls-MacBook-Pro:~/Developer/swagger-microservice$ touch swagger_server/test/test_pet_service.py
+  dhughes@Daryls-MacBook-Pro:~/Developer/swagger-microservice/swagger_server/test$ pytest test_pet_service.py
+  =========================================================================================================================== test session starts ============================================================================================================================
+  platform darwin -- Python 3.7.2, pytest-4.0.2, py-1.7.0, pluggy-0.8.0
+  rootdir: /Users/dhughes/Developer/swagger-microservice, inifile:
+  collected 3 items
 
+  test_pet_service.py ...                                                                                                                                                                                                                                              [100%]
+
+  ============================================================================================================================= warnings summary =============================================================================================================================
+  ...
+  =================================================================================================================== 3 passed, 6 warnings in 0.20 seconds ===================================================================================================================
   ```
 
 4. Show API documentation
@@ -88,7 +72,7 @@ Example python-flask API using swagger as the driver
    * Debug mode: off
   INFO:werkzeug: * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
 
-
+  -	show we can test against the mock server
   ... In new terminal window
   dhughes@Daryls-MacBook-Pro:~/Downloads/python-flask-server$ curl http://petstore.swagger.io/v2/store/inventory
 {"dd":4,"TestStatus":2,"placed":2,"unavailable":5,"available":3839,"pramod":1,"ut lab":1,"UNAVAILABLE":13,"Available":12,"eeeee":1,"Not available":3,"sold_by_pflb":1,"12":1,"test":1,"Invalid_status_XXX":4,"Nonavailable":1,"fff":2,"PramodYadav":1,"3.14":4,"active":10,"available and very cheap":1,"as":2,"reserved":4,"Valid":1,"{{status}}":1,"status":12,"string":148585,"pending":326,"available;pending;sold":1,"asdasd":1,"ava":1,"unknown":2,"Sold":15,"availablee":1,"not available":2,"free":1,"sold":109,"availabe":2,"available may be":1,"装逼中":1,"panding":2,"deserunt fugiat cons":1,"Taken":4,"irure aliquip veli":1,"AVAILABLE":34,"dolore":1,"availae":1,"s":1,"noavailable":2,"amet":1,"sold12":1,"availble":2,"Pending":9,"consectetur":1}
@@ -99,30 +83,17 @@ Example python-flask API using swagger as the driver
 
 # TESTING
 
-- UNIT: controller-ping-checks(contract testing) and services(business logic functional testing)
+- UNIT:
+    - YES: services(business logic functional testing)
+    - MAYBE: controller-ping-checks(contract testing) ?
 - API:
+    - YES: Testing both service and controller together as they are implemented against mocked services config
+- Integration: Running API Tests, implemented against externally mocked APIs with integration config
+- Integrated: Running API Tests, implemented against live running APIs that are running against externally mocked APIs with integrated config
+- e2e: Running the application against running system with mocked data
 
-- Pytest example:
-```
-(venv) dhughes@Daryls-MacBook-Pro:~/Developer/swagger-microservice$ pytest
-=========================================================================================================================== test session starts ============================================================================================================================
-platform darwin -- Python 3.7.2, pytest-4.0.2, py-1.7.0, pluggy-0.8.0
-rootdir: /Users/dhughes/Developer/swagger-microservice, inifile:
-collected 20 items
-
-swagger_server/test/test_pet_controller.py ........                                                                                                                                                                                                                  [ 40%]
-swagger_server/test/test_store_controller.py ....                                                                                                                                                                                                                    [ 60%]
-swagger_server/test/test_user_controller.py ........                                                                                                                                                                                                                 [100%]
-
-============================================================================================================================= warnings summary =============================================================================================================================
-...
--- Docs: https://docs.pytest.org/en/latest/warnings.html
-================================================================================================================== 20 passed, 7 warnings in 7.12 seconds ===================================================================================================================
-(venv) dhughes@Daryls-MacBook-Pro:~/Developer/swagger-microservice$
-```
--	show we can test against the mock server
-
-
+- Testing of 400,404? shoud we get them for free or have to write the tests - IN SWAGGER WE TRUST
+---
 
 # Swagger Generated README:
 

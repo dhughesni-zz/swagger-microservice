@@ -9,6 +9,8 @@ from swagger_server.models.api_response import ApiResponse  # noqa: E501
 from swagger_server.models.pet import Pet  # noqa: E501
 from swagger_server.test import BaseTestCase
 
+from swagger_server.services.pet_service import service_find_pets_by_status
+
 
 class TestPetController(BaseTestCase):
     """PetController integration test stubs"""
@@ -52,6 +54,11 @@ class TestPetController(BaseTestCase):
             query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
+
+        assert self.client.open('/v2/pet/findByStatus', method='GET', query_string=[('status', 'available')]).data.decode('utf-8') == '"Status Return:[\'available\']"\n'
+        assert self.client.open('/v2/pet/findByStatus', method='GET', query_string=[('status', 'pending')]).data.decode('utf-8') == '"Status Return:[\'pending\']"\n'
+        assert self.client.open('/v2/pet/findByStatus', method='GET', query_string=[('status', 'sold')]).data.decode('utf-8') == '"Status Return:[\'sold\']"\n'
+        assert self.client.open('/v2/pet/findByStatus', method='GET', query_string=[('status', 'INVALID_OPTION')]).status_code == 400
 
     def test_find_pets_by_tags(self):
         """Test case for find_pets_by_tags

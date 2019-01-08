@@ -1,5 +1,5 @@
 import pytest
-from swagger_server.services.pet_service import *
+from swagger_server.services.pet_service import service_find_pets_by_status
 
 
 class TestFindPetsByStatusService():
