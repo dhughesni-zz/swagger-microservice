@@ -57,7 +57,7 @@ Example python-flask API using swagger as the driver
 4. Show API documentation
 5. Show simple mock server
   ```
-  (venv) dhughes@Daryls-MacBook-Pro:~/Developer/swagger-microservice$ connexion run swagger_server/swagger/swagger.yaml --mock=all -v
+  (venv) dhughes@Daryls-MacBook-Pro:~/Developer/swagger-microservice$ connexion run swagger_server/swagger/swagger.yaml --mock=all --strict-validation --validate-responses -w flask -v
   WARNING:connexion.operation:... OAuth2 token info URL missing. **IGNORING SECURITY REQUIREMENTS**
   WARNING:connexion.operation:... OAuth2 token info URL missing. **IGNORING SECURITY REQUIREMENTS**
   WARNING:connexion.operation:... OAuth2 token info URL missing. **IGNORING SECURITY REQUIREMENTS**
@@ -92,8 +92,15 @@ Example python-flask API using swagger as the driver
 - Integrated: Running API Tests, implemented against live running APIs that are running against externally mocked APIs with integrated config
 - e2e: Running the application against running system with mocked data
 
-- Testing of 400,404? shoud we get them for free or have to write the tests - IN SWAGGER WE TRUST
+- Testing of 400,404? should we get them for free or have to write the tests - IN SWAGGER WE TRUST
 ---
+
+# Take Aways:
+- Project structure is a good thing to standardise
+- Swagger is a nice tool for API development, handling all API structure ect. documentation
+- The swagger codegen offered the ability to easily decouple the business logic from the API - it does result in "TURST IN SWAGGER"
+- Testing was clean at a unit test level and API testing
+- One dislike was that I was tied into using the swagger testing boilerplate which did not give me the ability to reuse the API tests for integration - we would be smarter her and write mocks, so that helper functions could be used to enable them to work for local API testing and then also against external mocks, for integration tests.
 
 # Swagger Generated README:
 
